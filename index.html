@@ -1,1 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova — Built for Focus</title>
+  <meta name="description" content="An Apple-like landing page vibe: clean, minimal, premium." />
+  <style>
+    /* --- Apple-like vibe: clean type, soft gradients, glass, subtle motion --- */
+    :root{
+      --bg: #05060a;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.08);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --hairline: rgba(255,255,255,.12);
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+      --radius: 22px;
+      --radius2: 28px;
+      --max: 1140px;
+      --ease: cubic-bezier(.2,.8,.2,1);
+      --blue: #0a84ff;
+      --green: #30d158;
+      --purple: #bf5af2;
+      --orange: #ff9f0a;
+      --red: #ff453a;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                   Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 900px at 15% 10%, rgba(10,132,255,.22), transparent 60%),
+                  radial-gradient(900px 700px at 85% 15%, rgba(191,90,242,.18), transparent 60%),
+                  radial-gradient(900px 700px at 70% 90%, rgba(48,209,88,.14), transparent 60%),
+                  radial-gradient(800px 600px at 20% 90%, rgba(255,159,10,.10), transparent 60%),
+                  linear-gradient(180deg, #04050a 0%, #070817 40%, #05060a 100%);
+      overflow-x: hidden;
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    button{ font: inherit; color: inherit; }
+
+    .wrap{
+      width: min(var(--max), calc(100% - 44px));
+      margin: 0 auto;
+    }
+
+    /* --- Top nav (glassy) --- */
+    .nav{
+      position: sticky;
+      top: 12px;
+      z-index: 50;
+      margin-top: 12px;
+    }
+    .navInner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 12px 14px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      background: rgba(10,10,16,.55);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      padding-left: 6px;
+      letter-spacing: .2px;
+      font-weight: 600;
+    }
+    .dot{
+      width: 10px; height: 10px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fff, rgba(255,255,255,.2) 50%),
+                  linear-gradient(135deg, rgba(10,132,255,1), rgba(191,90,242,1));
+      box-shadow: 0 0 24px rgba(10,132,255,.35);
+    }
+    .menu{
+      display:flex; gap:18px; align-items:center;
+      color: var(--muted);
+      font-size: 13.5px;
+    }
+    .menu a{
+      padding: 8px 10px;
+      border-radius: 999px;
+      transition: background .25s var(--ease), color .25s var(--ease);
+    }
+    .menu a:hover{
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.88);
+    }
+    .navCtas{ display:flex; gap:10px; align-items:center; }
+    .btn{
+      border: 1px solid var(--hairline);
+      background: rgba(255,255,255,.04);
+      padding: 9px 14px;
+      border-radius: 999px;
+      cursor:pointer;
+      transition: transform .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      font-size: 13.5px;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.18); }
+    .btnPrimary{
+      border-color: rgba(10,132,255,.5);
+      background: linear-gradient(180deg, rgba(10,132,255,.95), rgba(10,132,255,.65));
+      box-shadow: 0 18px 45px rgba(10,132,255,.22);
+    }
+    .btnPrimary:hover{ transform: translateY(-1px); filter: brightness(1.03); }
+
+    /* --- Hero --- */
+    .hero{
+      padding: 70px 0 10px;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:10px;
+      padding: 8px 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.78);
+      font-size: 13px;
+    }
+    .spark{
+      width: 18px; height: 18px; border-radius: 6px;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(255,255,255,.18) 55%),
+                  linear-gradient(135deg, rgba(48,209,88,.9), rgba(10,132,255,.9));
+      box-shadow: 0 0 26px rgba(48,209,88,.18);
+    }
+
+    h1{
+      margin: 18px 0 0;
+      font-size: clamp(42px, 5vw, 70px);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+    }
+    .sub{
+      margin: 16px 0 0;
+      font-size: clamp(16px, 1.6vw, 20px);
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 56ch;
+    }
+
+    .heroRow{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 26px;
+      align-items: start;
+      margin-top: 26px;
+    }
+
+    .heroCtas{
+      display:flex;
+      gap: 12px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .meta{
+      display:flex; gap:18px; margin-top: 18px; color: rgba(255,255,255,.55);
+      font-size: 13px;
+    }
+    .meta span{
+      display:flex; align-items:center; gap:8px;
+      padding: 8px 10px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      border-radius: 999px;
+    }
+    .icon{
+      width: 14px; height: 14px; opacity: .9;
+    }
+
+    /* --- Hero device mock --- */
+    .device{
+      position: relative;
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transform: translateZ(0);
+      min-height: 380px;
+    }
+    .device::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(500px 300px at 30% 20%, rgba(10,132,255,.25), transparent 60%),
+        radial-gradient(450px 280px at 70% 30%, rgba(191,90,242,.22), transparent 60%),
+        radial-gradient(500px 340px at 60% 90%, rgba(48,209,88,.14), transparent 55%);
+      filter: blur(0px);
+      opacity: .9;
+      pointer-events:none;
+    }
+    .deviceTop{
+      position: relative;
+      display:flex; align-items:center; gap:10px;
+      padding: 14px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(14px);
+    }
+    .lights{ display:flex; gap:8px; }
+    .l{ width:10px; height:10px; border-radius:50%; opacity:.85; }
+    .l.r{ background: rgba(255,69,58,.9); }
+    .l.y{ background: rgba(255,159,10,.9); }
+    .l.g{ background: rgba(48,209,88,.9); }
+    .tab{
+      margin-left: 6px;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.68);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      padding: 7px 10px;
+      border-radius: 999px;
+    }
+    .deviceBody{
+      position: relative;
+      padding: 18px 18px 22px;
+    }
+    .code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: rgba(255,255,255,.78);
+      background: rgba(0,0,0,.22);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 18px;
+      padding: 14px 14px;
+      overflow: hidden;
+      position: relative;
+    }
+    .code::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,.16) 100%);
+      pointer-events:none;
+    }
+    .code b{ color: rgba(255,255,255,.92); font-weight: 600; }
+    .code .kw{ color: rgba(10,132,255,.95); }
+    .code .fn{ color: rgba(191,90,242,.95); }
+    .code .st{ color: rgba(48,209,88,.95); }
+    .code .cm{ color: rgba(255,255,255,.45); }
+    .chips{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top: 14px;
+    }
+    .chip{
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.72);
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-size: 12.5px;
+    }
+
+    /* --- Sections --- */
+    section{
+      padding: 70px 0;
+    }
+    .sectionTitle{
+      font-size: 13px;
+      color: rgba(255,255,255,.62);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+    .sectionHead{
+      margin-top: 10px;
+      font-size: clamp(28px, 3vw, 44px);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .sectionSub{
+      margin-top: 14px;
+      color: var(--muted);
+      max-width: 72ch;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* --- Feature grid --- */
+    .grid{
+      margin-top: 28px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .card{
+      grid-column: span 4;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      padding: 18px 18px 16px;
+      position: relative;
+      overflow: hidden;
+      transition: transform .35s var(--ease), border-color .35s var(--ease);
+    }
+    .card:hover{ transform: translateY(-4px); border-color: rgba(255,255,255,.18); }
+    .card::before{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(420px 240px at 20% 10%, rgba(10,132,255,.15), transparent 62%),
+                  radial-gradient(420px 240px at 80% 20%, rgba(191,90,242,.12), transparent 62%);
+      opacity:.9;
+      pointer-events:none;
+    }
+    .card h3{
+      margin: 10px 0 6px;
+      font-size: 18px;
+      letter-spacing: -0.01em;
+      position: relative;
+    }
+    .card p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14.5px;
+      position: relative;
+    }
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      border-radius: 999px;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.74);
+      position: relative;
+    }
+    .badge i{
+      width: 10px; height: 10px; border-radius: 50%;
+      display:inline-block;
+      box-shadow: 0 0 22px rgba(10,132,255,.25);
+      background: rgba(10,132,255,.9);
+    }
+    .badge.p i{ background: rgba(191,90,242,.9); box-shadow: 0 0 22px rgba(191,90,242,.22); }
+    .badge.g i{ background: rgba(48,209,88,.9); box-shadow: 0 0 22px rgba(48,209,88,.18); }
+    .badge.o i{ background: rgba(255,159,10,.95); box-shadow: 0 0 22px rgba(255,159,10,.15); }
+
+    /* --- Product strip --- */
+    .strip{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 26px;
+    }
+    .bigCard{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      padding: 22px;
+      overflow: hidden;
+      position: relative;
+      min-height: 260px;
+    }
+    .bigCard::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(600px 320px at 20% 30%, rgba(10,132,255,.20), transparent 60%),
+        radial-gradient(520px 320px at 90% 10%, rgba(48,209,88,.12), transparent 62%),
+        radial-gradient(520px 360px at 80% 100%, rgba(191,90,242,.14), transparent 60%);
+      pointer-events:none;
+    }
+    .bigCard h3{
+      position: relative;
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+    }
+    .bigCard p{
+      position: relative;
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 62ch;
+    }
+    .bigCard .mini{
+      position: absolute;
+      right: 18px;
+      bottom: 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      backdrop-filter: blur(14px);
+      padding: 12px 12px;
+      min-width: 220px;
+    }
+    .miniRow{
+      display:flex; justify-content: space-between; gap: 12px;
+      font-size: 12.5px; color: rgba(255,255,255,.72);
+      padding: 8px 8px;
+      border-radius: 12px;
+    }
+    .miniRow strong{ color: rgba(255,255,255,.9); font-weight: 600; }
+    .miniRow:nth-child(odd){ background: rgba(255,255,255,.04); }
+
+    /* --- Testimonials --- */
+    .quotes{
+      margin-top: 28px;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 14px;
+    }
+    .quote{
+      grid-column: span 6;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      padding: 18px;
+    }
+    .quote p{ margin: 0; color: rgba(255,255,255,.80); line-height: 1.65; }
+    .who{
+      margin-top: 12px;
+      display:flex; align-items:center; justify-content:space-between;
+      color: rgba(255,255,255,.58);
+      font-size: 13px;
+    }
+
+    /* --- CTA --- */
+    .cta{
+      border-radius: var(--radius2);
+      border: 1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(10,132,255,.16), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      padding: 26px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(720px 360px at 30% 20%, rgba(10,132,255,.28), transparent 60%),
+                  radial-gradient(620px 380px at 90% 50%, rgba(191,90,242,.18), transparent 60%);
+      pointer-events:none;
+    }
+    .ctaInner{
+      position: relative;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cta h3{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+    }
+    .cta p{
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 70ch;
+    }
+
+    /* --- Footer --- */
+    footer{
+      padding: 26px 0 44px;
+      color: rgba(255,255,255,.50);
+      font-size: 13px;
+    }
+    .foot{
+      display:flex; justify-content: space-between; align-items:center; gap: 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 16px;
+      flex-wrap: wrap;
+    }
+    .links{ display:flex; gap: 12px; flex-wrap: wrap; }
+    .links a{ color: rgba(255,255,255,.55); }
+    .links a:hover{ color: rgba(255,255,255,.85); }
+
+    /* --- Animations --- */
+    .fadeUp{
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+      will-change: opacity, transform;
+    }
+    .fadeUp.in{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 940px){
+      .heroRow{ grid-template-columns: 1fr; }
+      .device{ min-height: 340px; }
+      .card{ grid-column: span 6; }
+      .quote{ grid-column: span 12; }
+      .strip{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px){
+      .menu{ display:none; }
+      .card{ grid-column: span 12; }
+      .navInner{ padding: 10px 12px; }
+    }
+
+    /* Motion preferences */
+    @media (prefers-reduced-motion: reduce){
+      *{ transition: none !important; scroll-behavior: auto !important; }
+      .fadeUp{ opacity:1; transform:none; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap nav">
+    <div class="navInner fadeUp">
+      <a class="brand" href="#top" aria-label="Nova home">
+        <span class="dot"></span>
+        <span>Nova</span>
+      </a>
+
+      <nav class="menu" aria-label="Primary">
+        <a href="#features">Features</a>
+        <a href="#product">Product</a>
+        <a href="#stories">Stories</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+
+      <div class="navCtas">
+        <button class="btn" data-scroll="#pricing">See pricing</button>
+        <button class="btn btnPrimary" data-scroll="#pricing">Get started</button>
+      </div>
+    </div>
+  </div>
+
+  <main id="top" class="wrap">
+    <!-- HERO -->
+    <header class="hero">
+      <div class="kicker fadeUp">
+        <span class="spark"></span>
+        <span>Premium landing page template — minimal, focused, fast.</span>
+      </div>
+
+      <div class="heroRow">
+        <div>
+          <h1 class="fadeUp" style="transition-delay:.06s">
+            Built for focus.<br/>Designed for delight.
+          </h1>
+          <p class="sub fadeUp" style="transition-delay:.12s">
+            Nova helps teams ship polished experiences with fewer decisions.
+            Clean components, subtle motion, and the kind of simplicity that feels expensive.
+          </p>
+
+          <div class="heroCtas fadeUp" style="transition-delay:.18s">
+            <button class="btn btnPrimary" data-scroll="#pricing">Start free</button>
+            <button class="btn" data-scroll="#product">Watch the demo</button>
+            <a class="btn" href="#features">Explore features</a>
+          </div>
+
+          <div class="meta fadeUp" style="transition-delay:.24s">
+            <span>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3l9 5-9 5-9-5 9-5Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M3 10l9 5 9-5" stroke="currentColor" stroke-width="1.6" opacity=".7"/>
+                <path d="M3 15l9 5 9-5" stroke="currentColor" stroke-width="1.6" opacity=".45"/>
+              </svg>
+              No frameworks needed
+            </span>
+            <span>
+              <svg class="icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 21s7-4.35 7-10.2C19 6.4 15.87 4 12 4S5 6.4 5 10.8C5 16.65 12 21 12 21Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M9.5 12.2l1.7 1.7 3.7-4" stroke="currentColor" stroke-width="1.6" />
+              </svg>
+              Accessible defaults
+            </span>
+          </div>
+        </div>
+
+        <aside class="device fadeUp" style="transition-delay:.10s" aria-label="Demo preview">
+          <div class="deviceTop">
+            <div class="lights" aria-hidden="true">
+              <span class="l r"></span><span class="l y"></span><span class="l g"></span>
+            </div>
+            <div class="tab">nova.app / landing</div>
+          </div>
+          <div class="deviceBody">
+            <div class="code" role="img" aria-label="Code preview">
+              <span class="cm">// Compose a premium section with minimal effort</span><br/>
+              <span class="kw">const</span> hero = <span class="fn">Section</span>({<br/>
+              &nbsp;&nbsp;title: <b>"Built for focus."</b>,<br/>
+              &nbsp;&nbsp;subtitle: <span class="st">"Designed for delight."</span>,<br/>
+              &nbsp;&nbsp;cta: <span class="fn">Button</span>({ variant: <span class="st">"primary"</span> })<br/>
+              });<br/><br/>
+              <span class="kw">render</span>(hero);
+            </div>
+
+            <div class="chips" aria-label="Highlights">
+              <span class="chip">Glass navigation</span>
+              <span class="chip">Subtle gradients</span>
+              <span class="chip">Smooth motion</span>
+              <span class="chip">Responsive grid</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </header>
+
+    <!-- FEATURES -->
+    <section id="features">
+      <div class="sectionTitle fadeUp">Features</div>
+      <div class="sectionHead fadeUp" style="transition-delay:.06s">
+        Everything you need — nothing you don’t.
+      </div>
+      <p class="sectionSub fadeUp" style="transition-delay:.12s">
+        A balanced set of building blocks: big headlines, soft cards, clean spacing, and motion that
+        feels like it belongs.
+      </p>
+
+      <div class="grid">
+        <div class="card fadeUp" style="transition-delay:.05s">
+          <span class="badge"><i></i> Typography</span>
+          <h3>Large type, tighter tracking</h3>
+          <p>Headline rhythm inspired by modern product pages. Clean hierarchy, no clutter.</p>
+        </div>
+        <div class="card fadeUp" style="transition-delay:.10s">
+          <span class="badge p"><i></i> Motion</span>
+          <h3>Subtle, purposeful animation</h3>
+          <p>Elements fade in with restraint. Respects reduced-motion preferences.</p>
+        </div>
+        <div class="card fadeUp" style="transition-delay:.15s">
+          <span class="badge g"><i></i> Performance</span>
+          <h3>Fast by default</h3>
+          <p>No heavy libraries. Just HTML/CSS/JS with careful effects and sane sizes.</p>
+        </div>
+
+        <div class="card fadeUp" style="transition-delay:.05s">
+          <span class="badge o"><i></i> Layout</span>
+          <h3>Grid that adapts</h3>
+          <p>12-column layout scales down cleanly. Cards reflow without awkward breaks.</p>
+        </div>
+        <div class="card fadeUp" style="transition-delay:.10s">
+          <span class="badge"><i></i> Components</span>
+          <h3>Reusable patterns</h3>
+          <p>Hero, feature grid, product strip, quotes, and CTA. Swap content, keep polish.</p>
+        </div>
+        <div class="card fadeUp" style="transition-delay:.15s">
+          <span class="badge p"><i></i> A11y</span>
+          <h3>Accessible defaults</h3>
+          <p>Readable contrast, focusable buttons, semantic structure, and proper labels.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section id="product">
+      <div class="sectionTitle fadeUp">Product</div>
+      <div class="sectionHead fadeUp" style="transition-delay:.06s">
+        A landing page that feels premium.
+      </div>
+      <p class="sectionSub fadeUp" style="transition-delay:.12s">
+        Use this as a base for your SaaS, portfolio, or new product. Replace the copy, keep the vibe.
+      </p>
+
+      <div class="strip">
+        <div class="bigCard fadeUp" style="transition-delay:.05s">
+          <h3>Designed to convert</h3>
+          <p>
+            Clear CTAs, scannable sections, and calm visuals. Let the content breathe —
+            the design does the persuading.
+          </p>
+          <div class="mini" aria-label="Quick stats">
+            <div class="miniRow"><span>Time to launch</span><strong>&lt; 30 min</strong></div>
+            <div class="miniRow"><span>Dependencies</span><strong>0</strong></div>
+            <div class="miniRow"><span>Mobile ready</span><strong>Yes</strong></div>
+          </div>
+        </div>
+
+        <div class="bigCard fadeUp" style="transition-delay:.10s">
+          <h3>Ready for your brand</h3>
+          <p>
+            Update the colors, logo, and tone. Keep the same spacing and softness —
+            you’ll still get an Apple-like calm.
+          </p>
+          <div class="heroCtas" style="position:relative; margin-top:16px;">
+            <button class="btn btnPrimary" data-scroll="#pricing">Get the template</button>
+            <button class="btn" id="toggleTheme">Toggle ambient</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STORIES -->
+    <section id="stories">
+      <div class="sectionTitle fadeUp">Stories</div>
+      <div class="sectionHead fadeUp" style="transition-delay:.06s">
+        People notice the details.
+      </div>
+      <p class="sectionSub fadeUp" style="transition-delay:.12s">
+        The best feedback is the quiet kind: “This feels polished.” That’s the goal.
+      </p>
+
+      <div class="quotes">
+        <div class="quote fadeUp" style="transition-delay:.06s">
+          <p>“We shipped a new page in an afternoon. It looks like a real product team touched it.”</p>
+          <div class="who"><span>Design Lead</span><span>— Mid-stage SaaS</span></div>
+        </div>
+        <div class="quote fadeUp" style="transition-delay:.12s">
+          <p>“The motion is subtle, the spacing is perfect, and it loads instantly. Exactly what we needed.”</p>
+          <div class="who"><span>Founder</span><span>— Studio</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING -->
+    <section id="pricing">
+      <div class="sectionTitle fadeUp">Pricing</div>
+      <div class="sectionHead fadeUp" style="transition-delay:.06s">
+        Start simple. Scale when it matters.
+      </div>
+      <p class="sectionSub fadeUp" style="transition-delay:.12s">
+        Replace this section with your real pricing. The structure is here so you can move fast.
+      </p>
+
+      <div class="grid">
+        <div class="card fadeUp" style="transition-delay:.05s">
+          <span class="badge"><i></i> Starter</span>
+          <h3>$0</h3>
+          <p>Perfect for testing the vibe. One landing page, all core sections.</p>
+          <div class="heroCtas" style="margin-top:14px;">
+            <button class="btn btnPrimary" style="width:100%">Choose Starter</button>
+          </div>
+        </div>
+
+        <div class="card fadeUp" style="transition-delay:.10s">
+          <span class="badge g"><i></i> Pro</span>
+          <h3>$19</h3>
+          <p>For launches. Custom sections, brand tokens, and more layout options.</p>
+          <div class="heroCtas" style="margin-top:14px;">
+            <button class="btn btnPrimary" style="width:100%">Choose Pro</button>
+          </div>
+        </div>
+
+        <div class="card fadeUp" style="transition-delay:.15s">
+          <span class="badge p"><i></i> Studio</span>
+          <h3>$49</h3>
+          <p>For teams. Multiple pages, handoff notes, and component variants.</p>
+          <div class="heroCtas" style="margin-top:14px;">
+            <button class="btn btnPrimary" style="width:100%">Choose Studio</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta fadeUp" style="margin-top: 18px; transition-delay:.10s">
+        <div class="ctaInner">
+          <div>
+            <h3>Make something that feels expensive.</h3>
+            <p>Drop your product name + 3 features and I’ll rewrite the copy to match your brand voice.</p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn" data-scroll="#top">Back to top</button>
+            <button class="btn btnPrimary" id="primaryAction">Start building</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="foot">
+        <div>© <span id="year"></span> Nova. All rights reserved.</div>
+        <div class="links">
+          <a href="#features">Features</a>
+          <a href="#product">Product</a>
+          <a href="#stories">Stories</a>
+          <a href="#pricing">Pricing</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Smooth scroll for buttons
+    document.querySelectorAll("[data-scroll]").forEach(el => {
+      el.addEventListener("click", () => {
+        const target = document.querySelector(el.getAttribute("data-scroll"));
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+
+    // Fade-in on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add("in");
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".fadeUp").forEach(el => io.observe(el));
+
+    // Ambient toggle (slightly shifts background intensity)
+    let ambient = true;
+    const toggle = document.getElementById("toggleTheme");
+    toggle?.addEventListener("click", () => {
+      ambient = !ambient;
+      document.body.style.background =
+        ambient
+          ? `radial-gradient(1200px 900px at 15% 10%, rgba(10,132,255,.22), transparent 60%),
+             radial-gradient(900px 700px at 85% 15%, rgba(191,90,242,.18), transparent 60%),
+             radial-gradient(900px 700px at 70% 90%, rgba(48,209,88,.14), transparent 60%),
+             radial-gradient(800px 600px at 20% 90%, rgba(255,159,10,.10), transparent 60%),
+             linear-gradient(180deg, #04050a 0%, #070817 40%, #05060a 100%)`
+          : `radial-gradient(1200px 900px at 15% 10%, rgba(10,132,255,.14), transparent 62%),
+             radial-gradient(900px 700px at 85% 15%, rgba(191,90,242,.10), transparent 62%),
+             linear-gradient(180deg, #04050a 0%, #05060a 100%)`;
+    });
+
+    // Primary action (example)
+    document.getElementById("primaryAction")?.addEventListener("click", () => {
+      alert("Replace this with your signup / checkout flow ✨");
+    });
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
 
